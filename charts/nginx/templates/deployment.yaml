@@ -398,3 +398,14 @@ spec:
         {{- if .Values.extraVolumes }}
         {{- include "common.tplvalues.render" ( dict "value" .Values.extraVolumes "context" $) | nindent 8 }}
         {{- end }}
+        - name: nginx-{{ $name }}
+          configMap:
+            name: nginx-{{ $name }}
+            items:
+            {{- $searchDir := printf "files/conf.d/%s/**" $name}}
+            {{- range $filePath, $_ := $.Files.Glob $searchDir }}
+            - key: {{ $filePath | replace "/" "--" }}
+              path: {{ trimPrefix "/" (trimPrefix $rootDir $filePath) }}
+            {{- end }}
+        {{- end }}
+        {{- end }}
