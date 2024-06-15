@@ -568,7 +568,10 @@ cloneStaticSiteFromGit:
   ##   - name: ssh-dir
   ##     mountPath: /root/.ssh/
   ##
-  extraVolumeMounts: []
+  extraVolumeMounts: 
+    - name: nginx-conf
+      mountPath: /opt/bitnami/nginx/conf
+      subPath: nginx.conf
 ## @param serverBlock Custom server block to be added to NGINX configuration
 ## PHP-FPM example server block:
 ## serverBlock: |-
