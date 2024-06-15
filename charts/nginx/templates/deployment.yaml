@@ -319,6 +319,15 @@ spec:
             {{- if .Values.extraVolumeMounts }}
             {{- include "common.tplvalues.render" ( dict "value" .Values.extraVolumeMounts "context" $) | nindent 12 }}
             {{- end }}
+            {{- $localDict := dict -}}
+            {{- range $path, $_ := .Files.Glob "files/conf.d/**" }}
+            {{- $name := index (regexSplit "/" $path -1) 2 }}
+            {{- if not (hasKey $localDict $name )}}
+            {{ $_ := set $localDict $name "true" }}
+            - name: nginx-{{ $name }}
+              mountPath: {{(printf "/opt/bitnami/nginx/conf/conf.d/%s/" $name) }}
+            {{- end }}
+            {{- end }}
         {{- if .Values.metrics.enabled }}
         - name: metrics
           image: {{ include "nginx.metrics.image" . }}

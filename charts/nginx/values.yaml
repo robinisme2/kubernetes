@@ -414,7 +414,13 @@ autoscaling:
 extraVolumes: []
 ## @param extraVolumeMounts Array to add extra mount
 ##
-extraVolumeMounts: []
+extraVolumeMounts:
+  - name: nginx-conf
+    configMap:
+      name: nginx-conf
+      items:
+      - key: nginx.conf
+        path: nginx.conf
 ## Pods Service Account
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
 ##

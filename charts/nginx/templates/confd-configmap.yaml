@@ -1,0 +1,18 @@
+{{- $localDict := dict -}}
+{{- range $path, $_ := .Files.Glob "files/conf.d/**" }}
+{{- $name := index (regexSplit "/" $path -1) 2 }}
+{{- if not (hasKey $localDict $name )}}
+{{ $_ := set $localDict $name "true" }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: nginx-{{ $name }}
+data:
+  {{- $searchDir := printf "files/conf.d/%s/**" $name}}
+  {{- range $filePath, $content := $.Files.Glob $searchDir }}
+  {{ $filePath | replace "/" "--" | indent 2 }}: |
+  {{- $content | toString | nindent 8 }}
+  {{ end }}
+---
+{{- end }}
+{{- end }}

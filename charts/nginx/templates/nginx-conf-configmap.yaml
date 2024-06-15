@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-conf
+  namespace: {{ .Release.Namespace }}
+data:
+  nginx.conf: |-
+{{- .Files.Get "files/nginx.conf" | nindent 4 | replace "worker_processes  auto;" (printf "worker_processes  %s;" .Values.workerProcesses)}}
+
