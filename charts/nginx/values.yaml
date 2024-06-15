@@ -411,16 +411,19 @@ autoscaling:
   targetMemory: ""
 ## @param extraVolumes Array to add extra volumes
 ##
-extraVolumes: []
+extraVolumes:
+- name: nginx-conf
+  configMap:
+    name: nginx-conf
+    items:
+    - key: nginx.conf
+      path: nginx.conf
 ## @param extraVolumeMounts Array to add extra mount
 ##
 extraVolumeMounts:
-  - name: nginx-conf
-    configMap:
-      name: nginx-conf
-      items:
-      - key: nginx.conf
-        path: nginx.conf
+- name: nginx-conf
+  mountPath: /etc/nginx/nginx.conf
+  subPath: nginx.conf
 ## Pods Service Account
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
 ##
@@ -568,10 +571,7 @@ cloneStaticSiteFromGit:
   ##   - name: ssh-dir
   ##     mountPath: /root/.ssh/
   ##
-  extraVolumeMounts: 
-    - name: nginx-conf
-      mountPath: /opt/bitnami/nginx/conf
-      subPath: nginx.conf
+  extraVolumeMounts: []
 ## @param serverBlock Custom server block to be added to NGINX configuration
 ## PHP-FPM example server block:
 ## serverBlock: |-
