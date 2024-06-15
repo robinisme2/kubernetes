@@ -2051,15 +2051,15 @@ server:
     # -- Server service labels
     labels: {}
     # -- Server service type
-    type: ClusterIP
+    type: LoadBalancer
     # -- Server service http port for NodePort service type (only if `server.service.type` is set to "NodePort")
     nodePortHttp: 30080
     # -- Server service https port for NodePort service type (only if `server.service.type` is set to "NodePort")
     nodePortHttps: 30443
     # -- Server service http port
-    servicePortHttp: 80
+    servicePortHttp: 8081
     # -- Server service https port
-    servicePortHttps: 443
+    servicePortHttps: 8443
     # -- Server service http port name, can be used to route traffic via istio
     servicePortHttpName: http
     # -- Server service https port name, can be used to route traffic via istio
