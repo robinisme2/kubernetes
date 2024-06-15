@@ -398,6 +398,12 @@ spec:
         {{- if .Values.extraVolumes }}
         {{- include "common.tplvalues.render" ( dict "value" .Values.extraVolumes "context" $) | nindent 8 }}
         {{- end }}
+        {{- $localDict := dict -}}
+        {{- range $path, $_ := .Files.Glob "files/conf.d/**" }}
+        {{- $name := index (regexSplit "/" $path -1) 2 }}
+        {{- if not (hasKey $localDict $name )}}
+        {{- $rootDir := printf "files/conf.d/%s" $name}}
+        {{ $_ := set $localDict $name "true" }}
         - name: nginx-{{ $name }}
           configMap:
             name: nginx-{{ $name }}
