@@ -422,7 +422,7 @@ extraVolumes:
 ##
 extraVolumeMounts:
 - name: nginx-conf
-  mountPath: /etc/nginx/nginx.conf
+  mountPath: /opt/bitnami/nginx/conf/nginx.conf
   subPath: nginx.conf
 ## Pods Service Account
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
